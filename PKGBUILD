@@ -20,8 +20,7 @@ validpgpkeys=('6A86B80E1D22F21D0B26BA75397D82E0531A9C91' # Jes Sorensen
 source=("git+https://git.kernel.org/pub/scm/utils/mdadm/mdadm.git#tag=${pkgname}-${pkgver}?signed"
 	'mdadm.conf')
 sha256sums=('SKIP'
-            '4ce1e90690282f98e4828e11576fbd61be65e97a2cdae6c7eac7035ea5ee53e5'
-            'b6782029bdae2d7f87ea0e332bb90f72a7792e933580e37602e81e2f1bb82a9c')
+            '4ce1e90690282f98e4828e11576fbd61be65e97a2cdae6c7eac7035ea5ee53e5')
 
 build() {
   cd mdadm
