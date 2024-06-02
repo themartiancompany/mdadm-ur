@@ -76,6 +76,19 @@ sha256sums=(
   '4ce1e90690282f98e4828e11576fbd61be65e97a2cdae6c7eac7035ea5ee53e5'
 )
 
+prepare() {
+  cd \
+    "${pkgname}"
+  sed \
+    "s/ -Wall //g" \
+    -i \
+    Makefile
+  sed \
+    "s/-Werror //g" \
+    -i \
+    Makefile
+}
+
 build() {
   cd \
     "${pkgname}"
