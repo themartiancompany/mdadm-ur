@@ -11,8 +11,10 @@ _os="$( \
 _systemd=true
 _offline=false
 [[ "${_os}" == "Android" ]] && \
-  _offline=true \
-  _systemd=false
+  (
+    # _offline=true
+    _systemd=false
+ )
 pkgname=mdadm
 pkgver=4.3
 pkgrel=2
@@ -66,7 +68,7 @@ _url="${url}/${pkgname}.git"
 [[ "${_offline}" == true ]] && \
   _url="file://${HOME}/${pkgname}"
 source=(
-  "${pkgname}::git+${url}#tag=${pkgname}-${pkgver}?signed"
+  "${pkgname}::git+${_url}#tag=${pkgname}-${pkgver}?signed"
   "${pkgname}.conf"
 )
 sha256sums=(
