@@ -5,13 +5,28 @@
 # Maintainer: Tobias Powalowski <tpowa@archlinux.org>
 # Contributor: Judd Vinet <jvinet@zeroflux.org>
 
+_os="$( \
+  uname \
+    -o)"
+_systemd=true
+_offline=false
+[[ "${_os}" == "Android" ]] && \
+  _offline=true \
+  _systemd=false
 pkgname=mdadm
 pkgver=4.3
 pkgrel=2
-pkgdesc='A tool for managing/monitoring Linux md device arrays, also known as Software RAID'
+_pkgdesc=(
+  'A tool for managing/monitoring'
+  'Linux md device arrays,'
+  'also known as Software RAID'
+)
+pkgdesc="${_pkgdesc[*]}"
 arch=(
   'x86_64'
   'arm'
+  'aarch64'
+  'i686'
 )
 license=(
   'GPL-2.0-or-later'
@@ -24,8 +39,11 @@ makedepends=(
 )
 depends=(
   'glibc'
-  'systemd'
 )
+[[ "${_systemd}" == "true" ]] && \
+  depends+=(
+    'systemd'
+  )
 conflicts=(
   'mkinitcpio<38'
 )
@@ -45,7 +63,7 @@ validpgpkeys=(
   'EED84966493AEEAF4B466F696F9E3E9D4EDEBB11'
 )
 _url="${url}/${pkgname}.git"
-[[ "${_local}" == true ]] && \
+[[ "${_offline}" == true ]] && \
   _url="file://${HOME}/${pkgname}"
 source=(
   "${pkgname}::git+${url}#tag=${pkgname}-${pkgver}?signed"
