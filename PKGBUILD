@@ -87,10 +87,10 @@ prepare() {
     "s/-Werror //g" \
     -i \
     Makefile
-  sed \
-    "s/udev.o //g" \
-    -i \
-    Makefile
+  # sed \
+  #   "s/udev.o //g" \
+  #   -i \
+  #   Makefile
   # sed \
   #   "s/super-ddf.o //g" \
   #   -i \
