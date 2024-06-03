@@ -91,10 +91,10 @@ prepare() {
     "s/udev.o //g" \
     -i \
     Makefile
-  sed \
-    "s/super-ddf.o //g" \
-    -i \
-    Makefile
+  # sed \
+  #   "s/super-ddf.o //g" \
+  #   -i \
+  #   Makefile
   sed \
     "s/super-intel.o //g" \
     -i \
@@ -130,11 +130,16 @@ build() {
   )
   cd \
     "${pkgname}"
-  sudo make \
+  echo \
+    "detected /usr: $(_get_usr)"
+  export \
+    RUN_DIR="$( \
+      _get_usr)/run"
+  make \
     CXFLAGS="${_cxflags[*]}" \
     BINDIR=/usr/bin \
     UDEVDIR=/usr/lib/udev \
-    RUNDIR="$( \
+    RUN_DIR="$( \
       _get_usr)/run"
 }
 
