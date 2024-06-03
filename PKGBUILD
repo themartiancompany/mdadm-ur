@@ -87,15 +87,55 @@ prepare() {
     "s/-Werror //g" \
     -i \
     Makefile
+  sed \
+    "s/udev.o //g" \
+    -i \
+    Makefile
+  sed \
+    "s/super-ddf.o //g" \
+    -i \
+    Makefile
+  sed \
+    "s/super-intel.o //g" \
+    -i \
+    Makefile
+  sed \
+    "s/platform-intel.o //g" \
+    -i \
+    Makefile
+}
+
+_get_usr() {
+  local \
+    _bin
+  _bin="$( \
+    dirname \
+      "$( \
+        command \
+          -v \
+	  "cc")")"
+  echo \
+    "$( \
+      dirname \
+       "${_bin}")"
 }
 
 build() {
+  local \
+    _cxflags=()
+  _cxflags=(
+    "${CFLAGS}"
+    -DNO_LIBUDEV
+    -I"$(_get_usr)/include"
+  )
   cd \
     "${pkgname}"
-  make \
-    CXFLAGS="${CFLAGS}" \
+  sudo make \
+    CXFLAGS="${_cxflags[*]}" \
     BINDIR=/usr/bin \
-    UDEVDIR=/usr/lib/udev 
+    UDEVDIR=/usr/lib/udev \
+    RUNDIR="$( \
+      _get_usr)/run"
 }
 
 package() {
@@ -106,7 +146,7 @@ package() {
     BINDIR=/usr/bin \
     DESTDIR="${pkgdir}" \
     UDEVDIR=/usr/lib/udev \
-    install
+    install-bin
   make \
     SYSTEMD_DIR="$pkgdir"/usr/lib/systemd/system \
     install-systemd
